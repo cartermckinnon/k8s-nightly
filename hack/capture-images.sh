@@ -32,16 +32,8 @@ go install github.com/google/go-containerregistry/cmd/crane@latest
 
 FAILED_IMAGES=()
 for IMAGE in ${IMAGES[@]}; do
-  IMAGE_TARBALL="${BUILD_DIR}/${IMAGE}.tar"
-  TARGET_IMAGE="${TARGET_REGISTRY}/${IMAGE}:latest"
-  if ! crane pull "gcr.io/k8s-staging-ci-images/${IMAGE}:${IMAGE_TAG}" "${IMAGE_TARBALL}"; then
-    echo "Failed to pull image: ${IMAGE}"
-    FAILED_IMAGES+=("${IMAGE}")
-  elif ! crane push "${IMAGE_TARBALL}" "${TARGET_IMAGE}"; then
-    echo "Failed to push image: ${IMAGE}"
-    FAILED_IMAGES+=("${IMAGE}")
-  elif ! crane mutate "${TARGET_IMAGE}" --label org.opencontainers.image.source="https://github.com/${GITHUB_REPOSITORY}/"; then
-    echo "Failed to label image: ${IMAGE}"
+  if ! crane copy "gcr.io/k8s-staging-ci-images/${IMAGE}:${IMAGE_TAG}" "${TARGET_REGISTRY}/${IMAGE}:latest"; then
+    echo "Failed to copy image: ${IMAGE}"
     FAILED_IMAGES+=("${IMAGE}")
   else
     echo "Captured image: ${IMAGE}"
