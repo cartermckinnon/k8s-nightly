@@ -14,4 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          hack/capture-images.sh "ghcr.io/${{ github.repository }}"
+          REGISTRY="ghcr.io/${{ github.repository }}"
+          echo "${GITHUB_TOKEN}" | docker login "${REGISTRY}" --username "${{ github.repository_owner }}" --password-stdin
+          hack/capture-images.sh "${REGISTRY}"
