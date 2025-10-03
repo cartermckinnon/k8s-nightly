@@ -15,5 +15,5 @@ jobs:
       - uses: actions/checkout@v3
       - run: |
           REGISTRY="ghcr.io/${{ github.repository }}"
-          echo "${GITHUB_TOKEN}" | docker login "${REGISTRY}" --username "${{ github.repository_owner }}" --password-stdin
+          echo "${GITHUB_TOKEN}" | docker login --username "${{ github.repository_owner }}" --password-stdin "${REGISTRY}"
           hack/capture-images.sh "${REGISTRY}"
