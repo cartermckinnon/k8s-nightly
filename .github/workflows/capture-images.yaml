@@ -8,12 +8,11 @@ on:
 jobs:
   capture:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+#    permissions:
+#      contents: read
+#      packages: write
     steps:
       - uses: actions/checkout@v3
       - run: |
-          REGISTRY="ghcr.io/${{ github.repository }}"
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login --username "${{ github.repository_owner }}" --password-stdin "${REGISTRY}"
-          hack/capture-images.sh "${REGISTRY}"
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login --username "${{ github.repository_owner }}" --password-stdin ghcr.io
+          hack/capture-images.sh "${{ github.repository }}"
