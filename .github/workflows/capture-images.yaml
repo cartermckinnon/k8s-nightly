@@ -1,0 +1,17 @@
+name: Capture Images
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * *' # midnight PST
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          hack/capture-images.sh "ghcr.io/${{ github.event.repository_owner }}/${{ github.event.repository.name }}"
