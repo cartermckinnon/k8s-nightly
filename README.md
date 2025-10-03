@@ -2,6 +2,9 @@
 
 This project provides nightly builds of Kubernetes, sourced from the upstream project's CI system.
 
+> [!WARNING]
+> Don't use this in production.
+
 ---
 
 ## Usage
